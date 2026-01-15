@@ -1,11 +1,14 @@
 class Solution(object):
     def findRelativeRanks(self, score):
-        sorted_scores = sorted(score, reverse=True)
-        ranks = {sorted_scores[i]: str(i + 1) for i in range(len(score))}
-        ranks[sorted_scores[0]] = "Gold Medal"
-        if len(score) > 1:
-            ranks[sorted_scores[1]] = "Silver Medal"
-        if len(score) > 2:
-            ranks[sorted_scores[2]] = "Bronze Medal"
-        return [ranks[s] for s in score]
-        
+        x = sorted(score)[::-1]
+        a = []
+        for i in score:
+            if x.index(i)==0:
+                a.append("Gold Medal")
+            elif x.index(i)==1:
+                a.append("Silver Medal")
+            elif x.index(i)==2:
+                a.append("Bronze Medal")
+            else:
+                a.append(str(x.index(i)+1))
+        return a   
