@@ -1,11 +1,11 @@
-class Solution:
+class Solution(object):
     def xorOperation(self, n, start):
-        ans = 0
-
-        while n:
-            ans ^= start
-            start += 2
-            n -= 1
-
-        return ans
-        
+        """
+        :type n: int
+        :type start: int
+        :rtype: int
+        """
+        result=0
+        for i in range(n):
+            result^=start+2*i
+        return result
