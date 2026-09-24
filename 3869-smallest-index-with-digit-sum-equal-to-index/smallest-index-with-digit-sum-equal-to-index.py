@@ -7,7 +7,6 @@ class Solution(object):
                 sum+=x%10
                 x//=10
             if sum==i:
-                return i
-            
+                return i  
         return -1
         
