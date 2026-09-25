@@ -1,35 +1,47 @@
-class Solution:
+class Solution(object):
     def braceExpansionII(self, expression):
-        def parseExpr(i):
-            res = set()
-            while i < len(expression):
-                term, i = parseTerm(i)
-                res |= term
-                if i < len(expression) and expression[i] == ',':
-                    i += 1
-                else:
-                    break
-            return res, i
+        def merge(groups,words):
+            current = groups[-1]
 
-        def parseTerm(i):
-            res = {""}
-            while i < len(expression) and expression[i] != '}' and expression[i] != ',':
-                factor, i = parseFactor(i)
-                res = {a + b for a in res for b in factor}
-            return res, i
+            if not current:
+                groups[-1] = words
+                return
+            
+            combined = []
 
-        def parseFactor(i):
-            if expression[i] == '{':
-                i += 1 
-                res, i = parseExpr(i)
-                i += 1  
-                return res, i
-            else:
-                j = i
-                while j < len(expression) and expression[j].isalpha():
-                    j += 1
-                word = expression[i:j]
-                return {word}, j
+            for a in current:
+                for b in words:
+                    combined.append(a+b)
+            
+            groups[-1] = combined
+        
+        def dfs(start, end):
+            groups = [[]]
+            depth = 0
+            left = 0
 
-        ans, _ = parseExpr(0)
-        return sorted(list(ans))   
+            for i in range(start, end + 1):
+                if expression[i] == '{':
+                    depth += 1
+
+                    if depth == 1:
+                        left = i + 1
+                elif expression[i] == '}':
+                    depth -= 1
+
+                    if depth == 0:
+                        merge(groups, dfs(left, i - 1))
+                elif expression[i] ==',' and depth == 0:
+                    groups.append([])
+                elif depth == 0:
+                    merge(groups, [expression[i]])
+            result = set()
+
+            for group in groups:
+                for word in group:
+                    result.add(word)
+            return list(result)
+
+        return sorted(dfs(0, len(expression)-1))
+       
+    
