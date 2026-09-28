@@ -1,16 +1,15 @@
 class Solution:
     def maxDepth(self, s):
-        depth = 0
-        r = 0
-        for c in s:
-            if c == ')':
-                depth -= 1
-                continue
-       
-            if c != '(':
-                continue
-            depth += 1
+        op = 0
+        stk = []
 
-            if depth > r:
-                r = depth
-        return r
+        for i in s:
+            if i == '(':
+                stk.append(i)
+
+            elif i == ')':
+                stk.pop()
+
+            op = max(op, len(stk))
+
+        return op
