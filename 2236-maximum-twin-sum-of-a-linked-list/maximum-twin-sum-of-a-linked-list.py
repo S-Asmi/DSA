@@ -1,0 +1,11 @@
+class Solution(object):
+    def pairSum(self, head):
+        st = []
+        while head:
+            st.append(head.val)
+            head = head.next
+        max_sum = 0
+        for i in range(len(st)/2):
+            max_sum = max(max_sum, st[i] + st[len(st)-1-i])
+        return max_sum
+        
